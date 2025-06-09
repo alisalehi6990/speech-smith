@@ -9,6 +9,7 @@ COPY ./backend .
 COPY ./tsconfig.json .
 
 RUN npm run build
+RUN mkdir -p /var/log/speechsmith
 
 EXPOSE 3001
 

@@ -5,48 +5,91 @@ import fs from "fs";
 import { transcribeAudio } from "./services/transcription";
 import { extractFields } from "./services/extraction";
 import { audioUpload, saveTempAudioFile } from "./services/audioUpload";
+import { logger } from "./utils/logger";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 app.post("/api/process", audioUpload, async (req, res) => {
-  const { fieldNames } = req.body;
-  const file = req.file;
-
-  if (!file || !fieldNames) {
-    res.status(400).send({ error: "Missing audio file or field names" });
-    return;
-  }
-
-  const audioFilePath = await saveTempAudioFile(file.buffer, file.mimetype);
-
   try {
-    const fieldNamesList = JSON.parse(fieldNames);
-    const transcript = await transcribeAudio(audioFilePath);
-    const extractedData = await extractFields(transcript, fieldNamesList);
+    const { fieldNames } = req.body;
+    const file = req.file;
 
-    const missingFields = fieldNamesList.filter((field: string) => {
-      const value = extractedData[field];
-      return value === null || value === undefined;
-    });
+    if (!file || !fieldNames) {
+      logger.warn("Endpoint /api/process: Missing audio file or field names");
+      res.status(400).send({ error: "Missing audio file or field names" });
+      return;
+    }
 
-    fieldNamesList.forEach((field: string) => {
-      if (extractedData[field] === null) {
-        delete extractedData[field];
+    logger.info(
+      `Endpoint /api/process: Received audio file: ${file.originalname}, size: ${file.size} bytes`
+    );
+
+    const audioFilePath = await saveTempAudioFile(file.buffer, file.mimetype);
+    logger.debug(
+      `Endpoint /api/process: Saved temporary audio file at: ${audioFilePath}`
+    );
+
+    try {
+      const fieldNamesList = JSON.parse(fieldNames);
+      logger.info(
+        `Endpoint /api/process: Extracting fields: ${fieldNamesList.join(", ")}`
+      );
+
+      const transcript = await transcribeAudio(audioFilePath);
+      logger.info(`Endpoint /api/process: Transcript: "${transcript}"`);
+
+      const extractedData = await extractFields(transcript, fieldNamesList);
+      logger.info(
+        `Endpoint /api/process: Extracted data: ${JSON.stringify(
+          extractedData
+        )}`
+      );
+
+      const missingFields = fieldNamesList.filter((field: string) => {
+        const value = extractedData[field];
+        return value === null || value === undefined;
+      });
+
+      logger.info(
+        `Endpoint /api/process: Missing fields: ${
+          missingFields.join(", ") || "none"
+        }`
+      );
+
+      // Clean up extracted data
+      fieldNamesList.forEach((field: string) => {
+        if (extractedData[field] === null) {
+          delete extractedData[field];
+        }
+      });
+
+      res.json({
+        transcript,
+        ...extractedData,
+        _missing: missingFields,
+      });
+
+      fs.unlink(audioFilePath, () => {});
+    } catch (error: any) {
+      logger.error(
+        `Endpoint /api/process: Processing failed: ${error.message}`,
+        {
+          stack: error.stack,
+          body: req.body,
+        }
+      );
+      res.status(500).send({ error: "Processing failed" });
+    }
+  } catch (error: any) {
+    logger.fatal(
+      `Endpoint /api/process: Unhandled exception: ${error.message}`,
+      {
+        stack: error.stack,
       }
-    });
-
-    res.json({
-      transcript,
-      ...extractedData,
-      _missing: missingFields,
-    });
-
-    fs.unlink(audioFilePath, () => {});
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ error: "Processing failed" });
+    );
+    res.status(500).send({ error: "Internal server error" });
   }
 });
 

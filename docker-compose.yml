@@ -31,6 +31,9 @@ services:
     environment:
       - OLLAMA_HOST=http://ollama:11434
       - WHISPER_HOST=http://whisper:9000
+      - LOG_LEVEL=debug
+    volumes:
+      - speechsmith_logs:/var/log/speechsmith
     depends_on:
       - ollama
       - whisper
@@ -39,3 +42,4 @@ services:
 volumes:
   ollama_data:
   whisper_models:
+  speechsmith_logs:

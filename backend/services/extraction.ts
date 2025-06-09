@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FieldDefinition } from "../types";
+import { logger } from "../utils/logger";
 
 const OLLAMA_API_URL = process.env.OLLAMA_HOST + "/api/generate";
 export async function extractFields(
@@ -32,12 +32,26 @@ export async function extractFields(
     stream: false,
   };
 
-  const response = await axios.post(OLLAMA_API_URL, payload);
+  logger.debug(`extractFields: Calling LLM for field extraction`, {
+    prompt: systemPrompt,
+    text,
+    fieldNames,
+  });
 
   try {
+    const response = await axios.post(OLLAMA_API_URL, payload);
+
+    logger.debug(
+      `extractFields: Raw LLM response: ${JSON.stringify(response.data)}`
+    );
+
     return JSON.parse(response.data.response);
-  } catch (e) {
-    console.error("Failed to parse LLM response:", response.data.response);
+  } catch (error: any) {
+    logger.error(`extractFields: LLM extraction failed: ${error.message}`, {
+      status: error.response?.status,
+      data: error.response?.data,
+      payload,
+    });
     return {};
   }
 }

@@ -4,7 +4,7 @@ export interface FieldDefinition {
   name: string;
   label: string;
   description?: string;
-  format?: 'string' | 'number' | 'boolean';
+  format?: "string" | "number" | "boolean";
   optional?: boolean;
 }
 

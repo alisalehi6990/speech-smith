@@ -2,18 +2,18 @@ import axios from "axios";
 import { FieldDefinition } from "../types";
 
 const OLLAMA_API_URL = process.env.OLLAMA_HOST + "/api/generate";
-
 export async function extractFields(
   text: string,
-  fields: FieldDefinition[]
+  fieldNames: string[]
 ): Promise<Record<string, any>> {
-  const fieldNames = fields.map((f) => f.name).join(", ");
   const systemPrompt = `
     You are an assistant that extracts specific variables from natural language.
-    Given the following text, extract these fields: ${fieldNames}.
+    Given the following text, extract these fields: ${fieldNames.join(", ")}.
 
-    If a field cannot be found, omit it or mark as null.
-    Do NOT use null or undefined values.
+    RETURN ONLY A JSON OBJECT CONTAINING THE EXACT FIELDS REQUESTED.
+    DO NOT INCLUDE ANY FIELD THAT IS NOT MENTIONED IN THE INPUT.
+    IF A FIELD CANNOT BE FOUND, OMIT IT FROM THE OUTPUT.
+    NEVER USE null OR undefined VALUES.
 
     Return ONLY a JSON object with those fields. Do NOT say any additional things.
     Example:

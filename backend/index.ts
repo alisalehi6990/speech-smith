@@ -1,40 +1,40 @@
 import express from "express";
 import cors from "cors";
+import fs from "fs";
+
 import { transcribeAudio } from "./services/transcription";
 import { extractFields } from "./services/extraction";
-import { FieldDefinition } from "./types";
+import { audioUpload, saveTempAudioFile } from "./services/audioUpload";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/api/process", async (req, res) => {
-  const { audioFilePath } = req.body;
+app.post("/api/process", audioUpload, async (req, res) => {
 
-  if (!audioFilePath) {
-    res.status(400).send({ error: "Missing audioFilePath" });
+  const { fieldNames } = req.body;
+  const file = req.file;
+
+  if (!file || !fieldNames) {
+    res.status(400).send({ error: "Missing audio file or field names" });
+    return;
   }
 
-  const fields: FieldDefinition[] = [
-    { name: "age", label: "Age", format: "number" },
-    { name: "weight", label: "Weight", format: "number" },
-    { name: "height", label: "Height", format: "number" },
-  ];
+  const audioFilePath = await saveTempAudioFile(file.buffer, file.mimetype);
 
   try {
+    const fieldNamesList = JSON.parse(fieldNames);
     const transcript = await transcribeAudio(audioFilePath);
-    const extractedData = await extractFields(transcript, fields);
+    const extractedData = await extractFields(transcript, fieldNamesList);
 
-    const missingFields = fields
-      .filter((f) => {
-        const value = extractedData[f.name];
-        return value === null || value === undefined;
-      })
-      .map((f) => f.name);
+    const missingFields = fieldNamesList.filter((field: string) => {
+      const value = extractedData[field];
+      return value === null || value === undefined;
+    });
 
-    fields.forEach((f) => {
-      if (extractedData[f.name] === null) {
-        delete extractedData[f.name];
+    fieldNamesList.forEach((field: string) => {
+      if (extractedData[field] === null) {
+        delete extractedData[field];
       }
     });
 
@@ -43,6 +43,8 @@ app.post("/api/process", async (req, res) => {
       ...extractedData,
       _missing: missingFields,
     });
+
+    fs.unlink(audioFilePath, () => {});
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: "Processing failed" });

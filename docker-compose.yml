@@ -5,15 +5,37 @@ services:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
+
+  whisper:
+    image: onerahmet/openai-whisper-asr-webservice:latest-gpu
+    ports:
+      - "9000:9000"
+    environment:
+      - ASR_MODEL=medium
+      - ASR_ENGINE=openai_whisper
+    volumes:
+      - whisper_models:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+
   backend:
     build: .
     ports:
       - "3001:3001"
     environment:
       - OLLAMA_HOST=http://ollama:11434
+      - WHISPER_HOST=http://whisper:9000
     depends_on:
       - ollama
+      - whisper
     restart: on-failure
-    
+
 volumes:
   ollama_data:
+  whisper_models:

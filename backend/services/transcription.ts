@@ -1,19 +1,23 @@
 import axios from "axios";
+import fs from "fs";
+import FormData from "form-data";
 
-const WHISPER_API_URL = "http://localhost:11434/api/generate";
+export async function transcribeAudio(filePath: string): Promise<string> {
+  const formData = new FormData();
+  const file = fs.readFileSync(filePath);
+  formData.append("audio_file", file, "audio.wav");
 
-export async function transcribeAudio(audioFilePath: string): Promise<string> {
-  // TODO: use real audio file
-  console.log(`Transcribing file: ${audioFilePath}`);
-  const prompt = `Transcribe the following audio: ${audioFilePath}`;
-  return "I am 28 years old and am 175 cm tall.";
-
-  // TODO: use NLP to transcribe the audio
-  const response = await axios.post(WHISPER_API_URL, {
-    model: "whisper:base",
-    prompt,
-    stream: false,
-  });
-
-  return response.data.text || "";
+  try {
+    const response = await axios.post(
+      process.env.WHISPER_HOST + "/asr",
+      formData,
+      {
+        headers: formData.getHeaders(),
+      }
+    );
+    return response.data.trim();
+  } catch (error: any) {
+    console.error("Transcription failed:", error.message);
+    throw error;
+  }
 }

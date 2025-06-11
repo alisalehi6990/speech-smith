@@ -6,11 +6,13 @@ import { transcribeAudio } from "./services/transcription";
 import { extractFields } from "./services/extraction";
 import { audioUpload, saveTempAudioFile } from "./services/audioUpload";
 import { logger } from "./utils/logger";
+import { conversationRouter } from "./controllers/conversationController";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// A test endpoint to test all models and extract flow
 app.post("/api/process", audioUpload, async (req, res) => {
   try {
     const { fieldNames } = req.body;
@@ -92,6 +94,8 @@ app.post("/api/process", audioUpload, async (req, res) => {
     res.status(500).send({ error: "Internal server error" });
   }
 });
+
+app.use("/api/conversation", conversationRouter);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

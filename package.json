@@ -1,41 +1,19 @@
 {
-  "name": "speech-smith",
+  "name": "speechsmith",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "dev": "ts-node backend/index.ts",
-    "start": "node backend/dist/index.js",
-    "build:backend": "tsc --outDir ./backend",
-    "build": "npm run build:backend",
-    "test": "jest --config jest.config.js"
+    "dev": "concurrently \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "npm --prefix backend run build",
+    "build:frontend": "npm --prefix frontend run build",
+    "start:backend": "npm --prefix backend start",
+    "start:frontend": "npm --prefix frontend start"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "@types/jest": "^29.5.14",
-    "axios": "^1.9.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "form-data": "^4.0.3",
-    "jest": "^30.0.0",
-    "multer": "^2.0.1",
-    "pino": "^9.7.0",
-    "pino-pretty": "^13.0.0",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.3",
-    "@types/multer": "^1.4.13",
-    "@types/node": "^22.15.30",
-    "@types/pino": "^7.0.4",
-    "nodemon": "^3.1.10",
-    "ts-jest": "^29.4.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "concurrently": "^7.6.0"
   }
 }

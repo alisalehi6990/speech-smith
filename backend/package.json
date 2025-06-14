@@ -1,0 +1,40 @@
+{
+  "name": "speech-smith-server",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "description": "Backend service for local AI-powered audio-to-data extraction",
+  "scripts": {
+    "dev": "ts-node index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/jest": "^29.5.14",
+    "axios": "^1.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "form-data": "^4.0.3",
+    "jest": "^30.0.0",
+    "multer": "^2.0.1",
+    "pino": "^9.7.0",
+    "pino-pretty": "^13.0.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/multer": "^1.4.13",
+    "@types/node": "^22.15.30",
+    "@types/pino": "^7.0.4",
+    "nodemon": "^3.1.10",
+    "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

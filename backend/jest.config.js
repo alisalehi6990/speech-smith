@@ -3,12 +3,12 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: [
-    "<rootDir>/backend/tests/**/*.test.ts"
+    "<rootDir>/tests/**/*.test.ts"
   ],
   moduleFileExtensions: ['ts', 'js', 'json', 'node'],
-  roots: ['<rootDir>/backend/tests'],
+  roots: ['<rootDir>/tests'],
   moduleNameMapper: {
     // Support for absolute imports if needed
-    '^@/(.*)$': '<rootDir>/backend/$1',
+    '^@/(.*)$': '<rootDir>/$1',
   },
 };

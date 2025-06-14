@@ -126,12 +126,12 @@ const options = {
                 schema: {
                   type: "object",
                   properties: {
-                    file: {
+                    audio: {
                       type: "string",
                       format: "binary",
                     },
                   },
-                  required: ["file"],
+                  required: ["audio"],
                 },
               },
             },

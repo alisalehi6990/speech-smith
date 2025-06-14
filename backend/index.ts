@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
 import { conversationRouter } from "./controllers/conversationController";
 import { testController } from "./controllers/sampleCall";
 
@@ -9,6 +11,7 @@ app.use(express.json());
 
 app.use("/api/conversation", conversationRouter);
 app.use("/", testController);
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

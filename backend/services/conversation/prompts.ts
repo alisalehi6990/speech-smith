@@ -18,11 +18,12 @@ export const generateQuestionPrompt = (
 
     Your task:
     1. Based on the user's latest answer ("${lastAnswer}"), extract any known variables.
-    2. If more data is needed, ask one clear, natural question to collect the next field.
-    3. If all fields are collected, respond with "COMPLETED".
+    2. If more data is needed, ask one clear, natural question to collect the next field and put it inside "message" property in your response.
+    3. Always use metric system for data collection and ask question accordingly, like how much is your weight in kilogram
+    4. If all fields are collected, respond with "COMPLETED".
 
     Example format:
-    { "extracted": { "${missingFields[0]}": 28 }, "nextField": "${missingFields[1]}", "message": "Could you please tell me your ${missingFields[1]}?" }
+    { "extracted": { {The fields you managed to extract from user' latest answer} }, "nextField": "{The field you are about to ask for in message}", "message": "{Question you generated to ask for next field}" }
 
     Return ONLY the JSON object — no explanation.
   `;

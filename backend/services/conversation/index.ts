@@ -36,7 +36,7 @@ export const processUserAnswer = async (
       logger.debug(`[Attempt ${attempt}] Sending prompt to LLM`);
 
       const payload = {
-        model: "llama3",
+        model: "llama3.1",
         prompt,
         stream: false,
         options: {

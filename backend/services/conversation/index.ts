@@ -101,7 +101,7 @@ export const processUserAnswer = async (
 
   return {
     extracted: updatedData,
-    nextField: updatedSession.nextField,
+    nextField: updatedSession.completed ? null : updatedSession.nextField,
     askAgain: false,
     message: nextQuestion,
   };

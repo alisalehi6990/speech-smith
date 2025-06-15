@@ -19,6 +19,7 @@ export const useConversation = (
 
   const startConversation = async (requiredFields: string[]) => {
     setIsLoading(true);
+
     try {
       const res = await axios.post(
         `${options.apiBaseUrl}/api/conversation/start`,

@@ -11,7 +11,7 @@ interface ConversationalFormProps {
   apiBaseUrl?: string;
 }
 
-export const ConversationalForm = ({
+const ConversationalForm = ({
   initialMessage,
   requiredFields,
   onComplete,
@@ -201,3 +201,5 @@ export const ConversationalForm = ({
     </div>
   );
 };
+
+export default ConversationalForm;

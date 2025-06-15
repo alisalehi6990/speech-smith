@@ -19,7 +19,7 @@ export const generateQuestionPrompt = (
     Your task:
     1. Based on the user's latest answer ("${lastAnswer}"), extract any known variables.
     2. If more data is needed, ask one clear, natural question to collect the next field and put it inside "message" property in your response.
-    3. Always use metric system for data collection and ask question accordingly, like how much is your weight in kilogram
+    3. Always use metric system for data collection and ask question accordingly, like how much is your weight in kilogram. Make sure to include the metric system in your question.
     4. If all fields are collected, respond with "COMPLETED".
 
     Example format:

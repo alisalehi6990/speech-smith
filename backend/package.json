@@ -2,7 +2,7 @@
   "name": "speech-smith-server",
   "version": "1.0.0",
   "main": "dist/index.js",
-  "description": "Backend service for local AI-powered audio-to-data extraction",
+  "description": "Backend service for local AI-powered data extractor conversation engine",
   "scripts": {
     "dev": "ts-node index.ts",
     "build": "tsc",

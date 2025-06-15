@@ -89,7 +89,7 @@ export const processUserAnswer = async (
   const updatedSession: ConversationSession = {
     ...session,
     collectedData: updatedData,
-    nextField: updatedMissingFields.length > 0 ? updatedMissingFields[0] : null,
+    nextField: parsedResponse.nextField,
     completed: updatedMissingFields.length === 0,
   };
 

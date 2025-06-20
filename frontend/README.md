@@ -1,54 +1,38 @@
-# React + TypeScript + Vite
+# Speech Smith Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the React-based frontend for **Speech Smith**—a fully offline, AI-powered conversational form builder. It interacts with the backend to collect structured data from users via natural conversation, supporting both voice and text input.
 
-Currently, two official plugins are available:
+## ✨ Features
+- Conversational UI for smart, context-aware data collection
+- Microphone, file upload, and text input support
+- Real-time waveform and activity indicators
+- Embeddable as a React component in other projects
+- Modern, responsive design (Tailwind CSS)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧩 Main Components
+- `ConversationalForm/` – The core conversational form logic and UI
+- `Waveform/` – Displays live audio waveform during recording
+- `ActivityIndicator/` – Shows LLM/speech processing activity
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- The app runs at [http://localhost:5173](http://localhost:5173)
+- Make sure the backend is running for full functionality
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🛠️ Customization
+- To embed the form in your own app, import `ConversationalForm` from `src/components/ConversationalForm`.
+- Update styles via Tailwind CSS in `index.css` and `App.css`.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🤝 Contributing
+Pull requests and issues are welcome!
+
+---
+
+**Author:** Ali Salehi  
+[GitHub: alisalehi6990](https://github.com/alisalehi6990)

@@ -1,8 +1,8 @@
 {
-  "name": "speech-smith-server",
+  "name": "speech-smith-backend",
   "version": "1.0.0",
   "main": "dist/index.js",
-  "description": "Backend service for local AI-powered data extractor conversation engine",
+  "description": "Backend for Speech Smith: A fully local, offline, AI-powered conversational data extraction engine.",
   "scripts": {
     "dev": "ts-node index.ts",
     "build": "tsc",
@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ali Salehi <alisalehi6990@gmail.com> (https://github.com/alisalehi6990)",
   "license": "ISC",
   "dependencies": {
     "@types/jest": "^29.5.14",

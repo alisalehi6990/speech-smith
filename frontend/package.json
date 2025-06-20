@@ -1,8 +1,9 @@
 {
-  "name": "speech-smith-client",
+  "name": "speech-smith-frontend",
   "private": true,
   "version": "0.0.0",
-  "description": "AI-powered data extractor conversation engine",
+  "description": "Frontend for Speech Smith: A fully local, offline, AI-powered conversational form builder UI.",
+  "author": "Ali Salehi <alisalehi6990@gmail.com> (https://github.com/alisalehi6990)",
   "type": "module",
   "scripts": {
     "dev": "vite",

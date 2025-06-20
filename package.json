@@ -1,5 +1,5 @@
 {
-  "name": "speechsmith",
+  "name": "speech-smith",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -15,5 +15,7 @@
   "dependencies": {},
   "devDependencies": {
     "concurrently": "^7.6.0"
-  }
+  },
+  "description": "Speech Smith: A fully local, offline, AI-powered conversational form builder that extracts structured data from voice or text.",
+  "author": "Ali Salehi <alisalehi6990@gmail.com> (https://github.com/alisalehi6990)"
 }
